@@ -1,0 +1,248 @@
+{
+  "generated": "2026-09-17T23:42:00+07:00",
+  "title": "Hermes Agent Hub",
+  "tagline": "Personal AI agent system with code intelligence + multi-source knowledge",
+  "audience": "Devs outside the Tailscale ring who want to understand or replicate this architecture",
+  "version": "0.21.0",
+  "components": {
+    "brain_bridge": {
+      "name": "Brain Bridge",
+      "port": 9111,
+      "purpose": "MCP server exposing 18 knowledge tools - wikis, ChromaDB, Mnemosyne, Logseq, web search, contradictions registry",
+      "tools_count": 18,
+      "uptime_seconds": 43059,
+      "sources": [
+        "ChromaDB semantic search",
+        "Mnemosyne hybrid memory (vector + FTS5 + importance)",
+        "Holographic structured facts",
+        "Logseq daily journals",
+        "Wiki concepts / entities / sources (1000+ files)",
+        "Web search + Web scrape"
+      ],
+      "best_for": "Ask anything about user's personal knowledge base"
+    },
+    "unified_memory": {
+      "name": "Unified Memory",
+      "port": 9112,
+      "purpose": "Cross-source FTS5 search across 10 memory databases",
+      "total_docs": 22497,
+      "best_for": "Fast keyword search across emails, notes, sessions, learnings"
+    },
+    "hermes_api": {
+      "name": "Hermes API",
+      "port": 8642,
+      "purpose": "OpenAI-compatible HTTP API exposing the full agent - works with Open WebUI, custom clients, multi-provider LLM routing",
+      "version": "0.21.0",
+      "best_for": "Building external apps that need agent capabilities"
+    },
+    "codegraph": {
+      "name": "CodeGraph",
+      "version": "1.6.0",
+      "backend": "node:sqlite with full WAL",
+      "purpose": "Codebase intelligence - parses code into nodes/edges graph, answers 'what calls X', 'what does X affect', file structure queries",
+      "primary_index": {
+        "project": "/Volumes/MacRAID/hermes-agent-system",
+        "files": 8779,
+        "nodes": 186514,
+        "edges": 652220,
+        "db_size_mb": 777.71
+      },
+      "skills_index": {
+        "project": "~/.hermes/skills",
+        "files": 3516,
+        "nodes": 61732,
+        "edges": 128074
+      },
+      "commands": [
+        "codegraph status [path] - show index stats",
+        "codegraph files [path] [--filter] [--pattern] [--format tree|flat|grouped] - file tree",
+        "codegraph callers <symbol> - who calls X",
+        "codegraph callees <symbol> - what does X call",
+        "codegraph impact <symbol> - blast radius of changes",
+        "codegraph affected [files] - test files affected by source changes",
+        "codegraph serve --mcp - start MCP server for agent",
+        "codegraph install - wire MCP into any agent (Claude/Cursor/Codex/Hermes/Gemini/Kiro/Copilot)"
+      ],
+      "best_for": "Understanding or modifying a large unfamiliar codebase - replaces grep + reading every file"
+    }
+  },
+  "understand_anything": {
+    "name": "Understand Anything",
+    "version": "open-source upstream (Leigest519 lineage)",
+    "purpose": "Generates interactive codebase knowledge graphs (Phase 0-7)",
+    "how_it_uses_hermes_hub": [
+      "Phase 1-3 uses CodeGraph to enumerate files + relationships instead of parsing from scratch",
+      "Phase 4-7 stores summary graph in `.ua/` directory; surface frontmatter readable via Brain Bridge wiki_search",
+      "Outputs `knowledge-graph.json` that Hermes can navigate via Unified Memory"
+    ],
+    "skills": [
+      {
+        "name": "understand",
+        "description": "Analyze a codebase to produce an interactive knowledge graph.",
+        "purpose": "Analyze the current codebase and produce a `knowledge-graph.json` file in the project's data directory (`.ua/`, or the legacy `.understand-anything/` when it already exists). This file powers the interactive dashboard for exploring the project's architecture.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand/SKILL.md"
+      },
+      {
+        "name": "understand-chat",
+        "description": "Use when you need to ask questions about a codebase or under.",
+        "purpose": "Answer questions about this codebase using the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-chat/SKILL.md"
+      },
+      {
+        "name": "understand-dashboard",
+        "description": "Launch the interactive web dashboard to visualize a codebase.",
+        "purpose": "Start the Understand Anything dashboard to visualize the knowledge graph for the current project.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-dashboard/SKILL.md"
+      },
+      {
+        "name": "understand-diff",
+        "description": "Use when you need to analyze git diffs or pull requests to u.",
+        "purpose": "Analyze the current code changes against the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-diff/SKILL.md"
+      },
+      {
+        "name": "understand-domain",
+        "description": "Extract business domain knowledge from a codebase and genera.",
+        "purpose": "Extracts business domain knowledge — domains, business flows, and process steps — from a codebase and produces an interactive horizontal flow graph in the dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-domain/SKILL.md"
+      },
+      {
+        "name": "understand-explain",
+        "description": "Use when you need a deep-dive explanation of a specific file.",
+        "purpose": "Provide a thorough, in-depth explanation of a specific code component.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-explain/SKILL.md"
+      },
+      {
+        "name": "understand-figma",
+        "description": "Analyze a Figma file via the Figma REST API and generate an.",
+        "purpose": "Analyzes a Figma file and produces an interactive design knowledge graph in the existing dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-figma/SKILL.md"
+      },
+      {
+        "name": "understand-knowledge",
+        "description": "Analyze a Karpathy-pattern LLM wiki knowledge base and gener.",
+        "purpose": "Analyzes a Karpathy-pattern LLM wiki — a three-layer knowledge base with raw sources, wiki markdown, and a schema file — and produces an interactive knowledge graph dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-knowledge/SKILL.md"
+      },
+      {
+        "name": "understand-onboard",
+        "description": "Use when you need to generate an onboarding guide for new te.",
+        "purpose": "Generate a comprehensive onboarding guide from the project's knowledge graph.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-onboard/SKILL.md"
+      },
+      {
+        "name": "understand",
+        "description": "Analyze a codebase to produce an interactive knowledge graph.",
+        "purpose": "Analyze the current codebase and produce a `knowledge-graph.json` file in the project's data directory (`.ua/`, or the legacy `.understand-anything/` when it already exists). This file powers the interactive dashboard for exploring the project's architecture.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand/SKILL.md"
+      },
+      {
+        "name": "understand-chat",
+        "description": "Use when you need to ask questions about a codebase or under.",
+        "purpose": "Answer questions about this codebase using the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-chat/SKILL.md"
+      },
+      {
+        "name": "understand-dashboard",
+        "description": "Launch the interactive web dashboard to visualize a codebase.",
+        "purpose": "Start the Understand Anything dashboard to visualize the knowledge graph for the current project.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-dashboard/SKILL.md"
+      },
+      {
+        "name": "understand-diff",
+        "description": "Use when you need to analyze git diffs or pull requests to u.",
+        "purpose": "Analyze the current code changes against the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-diff/SKILL.md"
+      },
+      {
+        "name": "understand-domain",
+        "description": "Extract business domain knowledge from a codebase and genera.",
+        "purpose": "Extracts business domain knowledge — domains, business flows, and process steps — from a codebase and produces an interactive horizontal flow graph in the dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-domain/SKILL.md"
+      },
+      {
+        "name": "understand-explain",
+        "description": "Use when you need a deep-dive explanation of a specific file.",
+        "purpose": "Provide a thorough, in-depth explanation of a specific code component.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-explain/SKILL.md"
+      },
+      {
+        "name": "understand-figma",
+        "description": "Analyze a Figma file via the Figma REST API and generate an.",
+        "purpose": "Analyzes a Figma file and produces an interactive design knowledge graph in the existing dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-figma/SKILL.md"
+      },
+      {
+        "name": "understand-knowledge",
+        "description": "Analyze a Karpathy-pattern LLM wiki knowledge base and gener.",
+        "purpose": "Analyzes a Karpathy-pattern LLM wiki — a three-layer knowledge base with raw sources, wiki markdown, and a schema file — and produces an interactive knowledge graph dashboard.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-knowledge/SKILL.md"
+      },
+      {
+        "name": "understand-onboard",
+        "description": "Use when you need to generate an onboarding guide for new te.",
+        "purpose": "Generate a comprehensive onboarding guide from the project's knowledge graph.",
+        "path": "/Users/tringuyen/.hermes/skills/understand-anything/understand-onboard/SKILL.md"
+      }
+    ],
+    "best_for": "Onboarding a new codebase - get interactive architecture map in 5-7 phases"
+  },
+  "knowledge_layers": [
+    {
+      "name": "Code",
+      "tool": "CodeGraph",
+      "format": "SQLite (WAL)"
+    },
+    {
+      "name": "Memory",
+      "tool": "Mnemosyne",
+      "format": "SQLite + vectors"
+    },
+    {
+      "name": "Notes",
+      "tool": "Brain Bridge wiki",
+      "format": "Markdown on disk"
+    },
+    {
+      "name": "Daily",
+      "tool": "Logseq journals",
+      "format": "Markdown daily files"
+    },
+    {
+      "name": "Cross-source",
+      "tool": "Unified Memory",
+      "format": "FTS5 across 10 sources"
+    }
+  ],
+  "use_cases": [
+    {
+      "actor": "Dev A (external)",
+      "wants": "Understand Hermes architecture",
+      "path": "Read this site, then clone repo"
+    },
+    {
+      "actor": "Dev B (external)",
+      "wants": "Use CodeGraph on their own codebase",
+      "path": "Install `codegraph serve --mcp` into their agent"
+    },
+    {
+      "actor": "Dev C (external)",
+      "wants": "Replicate the knowledge layer",
+      "path": "Stand up Brain Bridge + Mnemosyne"
+    },
+    {
+      "actor": "Dev D (in Tailscale)",
+      "wants": "Live agent access",
+      "path": "Connect to API port 8642 with VILAO_CTG_KEY"
+    }
+  ],
+  "replication_steps": [
+    "1. Install Hermes Agent: `hermes setup`",
+    "2. Install CodeGraph: `brew tap obot-platform/tap && brew install codegraph`",
+    "3. Index your codebase: `codegraph init <path>`",
+    "4. Install Brain Bridge: `pip install hermes-brain-bridge`",
+    "5. Index your notes: configure `wiki_paths` in Brain Bridge env",
+    "6. Optional: stand up Mnemosyne for vector memory",
+    "7. Optional: install Understand Anything for graph-style onboarding"
+  ]
+}

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Agent Hub</title>
+<style>
+:root {
+  --bg: #0a0e1a; --card: #131a2e; --text: #e2e8f0; --muted: #94a3b8;
+  --accent: #38bdf8; --accent2: #a78bfa; --green: #10b981; --border: #1e293b;
+  --code-bg: #0f172a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.hero {
+  padding: 5rem 1rem 3rem; text-align: center;
+  border-bottom: 1px solid var(--border); margin-bottom: 3rem;
+  background: radial-gradient(ellipse at top, rgba(56,189,248,0.1), transparent 60%);
+}
+.hero h1 {
+  font-size: 3rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+.hero .tagline { color: var(--muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+.hero .meta { margin-top: 2rem; }
+.badge { display: inline-block; padding: 0.3rem 0.8rem; background: var(--card); border: 1px solid var(--border); border-radius: 1rem; margin: 0.3rem; font-size: 0.85rem; }
+.badge.green { color: var(--green); border-color: var(--green); }
+.badge.blue { color: var(--accent); border-color: var(--accent); }
+.section { margin: 3rem 0; }
+.section h2 { color: var(--accent); margin-bottom: 1.5rem; font-size: 1.8rem; }
+.section h3 { margin: 1.5rem 0 0.75rem; color: var(--accent2); font-size: 1.2rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 0.75rem; padding: 1.5rem; transition: all 0.2s;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card .name { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; font-family: monospace; }
+.card .port { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+.card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+.card ul { padding-left: 1.2rem; }
+.card li { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.3rem; }
+.card .stat {
+  display: inline-block; padding: 0.2rem 0.6rem; background: var(--code-bg);
+  border: 1px solid var(--border); border-radius: 0.3rem; font-family: monospace;
+  font-size: 0.85rem; color: var(--green);
+}
+pre {
+  background: var(--code-bg); padding: 1rem; border-radius: 0.5rem;
+  border: 1px solid var(--border); overflow-x: auto;
+  font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 0.9rem;
+}
+pre code { color: var(--text); }
+.flow {
+  background: var(--card); padding: 1.5rem; border-radius: 0.5rem;
+  border: 1px solid var(--border); margin: 1rem 0;
+}
+.flow .step {
+  display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+.flow .step:last-child { border-bottom: none; }
+.flow .num {
+  background: var(--accent); color: var(--bg); width: 2rem; height: 2rem;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; flex-shrink: 0;
+}
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+th { color: var(--accent); font-weight: 600; }
+td { color: var(--muted); }
+td code { color: var(--green); font-family: monospace; }
+footer {
+  margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border);
+  text-align: center; color: var(--muted); font-size: 0.9rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+a.btn {
+  display: inline-block; padding: 0.6rem 1.5rem; background: var(--accent);
+  color: var(--bg); border-radius: 0.5rem; text-decoration: none;
+  font-weight: 600; transition: all 0.2s;
+}
+a.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(56,189,248,0.3); }
+#mermaid { background: var(--card); padding: 1rem; border-radius: 0.5rem; border: 1px solid var(--border); margin: 1.5rem 0; }
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Hermes Agent Hub</h1>
+  <p class="tagline">Personal AI agent system with code intelligence + multi-source knowledge</p>
+  <div class="meta">
+    <span class="badge green">v0.21.0</span>
+    <span class="badge blue">Generated 2026-09-17</span>
+    <span class="badge">Open Source</span>
+  </div>
+</div>
+<div class="container">
+
+<div class="section">
+  <h2>What this is</h2>
+  <p>Devs outside the Tailscale ring who want to understand or replicate this architecture</p>
+  <p style="margin-top:1rem;">This is a personal AI agent system where each subsystem has a clear role and a real TCP port. None of these tools are mutually exclusive - they form a knowledge fabric.</p>
+</div>
+
+<div class="section">
+  <h2>Components</h2>
+  <div class="grid">'
+<div class="card">
+  <div class="name">Brain Bridge</div>
+  <div class="port">localhost:9111 <span class="stat">18 tools</span></div>
+  <p>MCP server exposing 18 knowledge tools - wikis, ChromaDB, Mnemosyne, Logseq, web search, contradictions registry</p>
+  
+  <ul><li>ChromaDB semantic search</li><li>Mnemosyne hybrid memory (vector + FTS5 + importance)</li><li>Holographic structured facts</li><li>Logseq daily journals</li><li>Wiki concepts / entities / sources (1000+ files)</li><li>Web search + Web scrape</li></ul>
+</div>
+<div class="card">
+  <div class="name">Unified Memory</div>
+  <div class="port">localhost:9112 <span class="stat">22,497 docs</span></div>
+  <p>Cross-source FTS5 search across 10 memory databases</p>
+  
+  
+</div>
+<div class="card">
+  <div class="name">Hermes API</div>
+  <div class="port">localhost:8642 </div>
+  <p>OpenAI-compatible HTTP API exposing the full agent - works with Open WebUI, custom clients, multi-provider LLM routing</p>
+  
+  
+</div>
+<div class="card">
+  <div class="name">CodeGraph</div>
+  <div class="port">localhost </div>
+  <p>Codebase intelligence - parses code into nodes/edges graph, answers &#x27;what calls X&#x27;, &#x27;what does X affect&#x27;, file structure queries</p>
+  <p><strong>Hermes core:</strong> 8,779 files / 186,514 nodes / 652,220 edges (777.71 MB SQLite)</p><p><strong>Skills:</strong> 3,516 files / 61,732 nodes / 128,074 edges</p>
+  
+</div>'</div>
+</div>
+
+
+<div class="section">
+  <h2>System Architecture</h2>
+  <div id="mermaid" class="arch-diagram">
+    <pre class="mermaid">flowchart LR
+    subgraph Hermes System
+        BB[Brain Bridge<br/>:9111<br/>18 tools]
+        UM[Unified Memory<br/>:9112<br/>22k docs]
+        HA[Hermes API<br/>:8642<br/>v0.21.0]
+        CG[CodeGraph<br/>v1.6.0<br/>SQLite WAL]
+    end
+    subgraph External
+        OW[Open WebUI]
+        CC[Custom Client<br/>(CLI, TUI, etc)]
+    end
+    BB -->|MCP| HA
+    UM -->|FTS5| HA
+    CG -->|MCP| HA
+    HA -->|HTTP/JSON| OW
+    HA -->|HTTP/JSON| CC</pre>
+  </div>
+  <p><em>Components communicate via MCP (Brain Bridge, Unified Memory, CodeGraph) and HTTP API.</em></p>
+</div>
+
+<div class="section">
+  <h2>CodeGraph Module Map (grouped)</h2>
+  <div id="mermaid" class="cg-map">
+    <pre class="mermaid">flowchart LR
+    subgraph Core
+        agent[agent]
+        hermes_cli[hermes_cli]
+        model_tools[model_tools]
+        run_agent[run_agent]
+        toolsets[toolsets]
+    end
+    subgraph Interface
+        gateway[gateway]
+        tui_gateway[tui_gateway]
+        ui_tui[ui-tui]
+        web[web]
+    end
+    subgraph Extensions
+        plugins[plugins]
+        skills[skills]
+        optional_skills[optional-skills]
+    end
+    subgraph Data
+        acp_adapter[acp-adapter]
+        cron[cron]
+        scripts[scripts]
+    end
+    agent --> hermes_cli
+    agent --> model_tools
+    model_tools --> run_agent
+    run_agent --> toolsets
+    hermes_cli --> gateway
+    gateway --> tui_gateway
+    gateway --> ui_tui
+    gateway --> web
+    plugins --> skills
+    skills --> optional_skills
+    cron --> scripts
+    acp_adapter --> agent
+    scripts --> agent</pre>
+  </div>
+  <p><em>Top-level groups from Hermes codebase (27 directories consolidated).</em></p>
+</div>
+
+<div class="section">
+  <h2>Understand Anything Phase Flow</h2>
+  <div id="mermaid" class="ua-flow">
+    <pre class="mermaid">flowchart TD
+    P0[Phase 0: Decompose] --> P1[Phase 1: Width Sweep]
+    P1 --> P2[Phase 2: Depth Analysis]
+    P2 --> P3[Phase 3: Draft]
+    P3 --> P4[Phase 4: Critics]
+    P4 --> P5[Phase 5: Patch Polish]
+    P5 --> P6[Phase 6: Final Verdict]
+    P6 --> P7[Phase 7: Recovery]</pre>
+  </div>
+  <p><em>Seven-phase pipeline for interactive codebase knowledge graphs.</em></p>
+</div>
+
+
+<div class="section">
+  <h2>How they fit together</h2>
+  <table>
+    <thead><tr><th>Layer</th><th>Tool</th><th>Storage</th></tr></thead>
+    <tbody><tr>
+  <td><strong>Code</strong></td>
+  <td><code>CodeGraph</code></td>
+  <td>SQLite (WAL)</td>
+</tr><tr>
+  <td><strong>Memory</strong></td>
+  <td><code>Mnemosyne</code></td>
+  <td>SQLite + vectors</td>
+</tr><tr>
+  <td><strong>Notes</strong></td>
+  <td><code>Brain Bridge wiki</code></td>
+  <td>Markdown on disk</td>
+</tr><tr>
+  <td><strong>Daily</strong></td>
+  <td><code>Logseq journals</code></td>
+  <td>Markdown daily files</td>
+</tr><tr>
+  <td><strong>Cross-source</strong></td>
+  <td><code>Unified Memory</code></td>
+  <td>FTS5 across 10 sources</td>
+</tr></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Understand Anything - integrated</h2>
+  <p>Generates interactive codebase knowledge graphs (Phase 0-7)</p>
+  <p style="margin-top:1rem;"><em>How it uses the Hermes hub:</em></p>
+  <ol style="margin:1rem 0 1rem 2rem;">
+    <li style="margin:0.3rem 0;">Phase 1-3 uses CodeGraph to enumerate files + relationships instead of parsing from scratch</li><li style="margin:0.3rem 0;">Phase 4-7 stores summary graph in `.ua/` directory; surface frontmatter readable via Brain Bridge wiki_search</li><li style="margin:0.3rem 0;">Outputs `knowledge-graph.json` that Hermes can navigate via Unified Memory</li>
+  </ol>
+
+  <h3>Skills in this group</h3>
+  <div class="grid">'
+<div class="card">
+  <div class="name">/understand</div>
+  <p>Analyze the current codebase and produce a `knowledge-graph.json` file in the project&#x27;s data directory (`.ua/`, or the legacy `.understand-anything/` when it already exists). This file powers the interactive dashboard for exploring the project&#x27;s architecture.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-chat</div>
+  <p>Answer questions about this codebase using the knowledge graph in the project&#x27;s data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).</p>
+</div>
+<div class="card">
+  <div class="name">/understand-dashboard</div>
+  <p>Start the Understand Anything dashboard to visualize the knowledge graph for the current project.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-diff</div>
+  <p>Analyze the current code changes against the knowledge graph in the project&#x27;s data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).</p>
+</div>
+<div class="card">
+  <div class="name">/understand-domain</div>
+  <p>Extracts business domain knowledge — domains, business flows, and process steps — from a codebase and produces an interactive horizontal flow graph in the dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-explain</div>
+  <p>Provide a thorough, in-depth explanation of a specific code component.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-figma</div>
+  <p>Analyzes a Figma file and produces an interactive design knowledge graph in the existing dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-knowledge</div>
+  <p>Analyzes a Karpathy-pattern LLM wiki — a three-layer knowledge base with raw sources, wiki markdown, and a schema file — and produces an interactive knowledge graph dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-onboard</div>
+  <p>Generate a comprehensive onboarding guide from the project&#x27;s knowledge graph.</p>
+</div>
+<div class="card">
+  <div class="name">/understand</div>
+  <p>Analyze the current codebase and produce a `knowledge-graph.json` file in the project&#x27;s data directory (`.ua/`, or the legacy `.understand-anything/` when it already exists). This file powers the interactive dashboard for exploring the project&#x27;s architecture.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-chat</div>
+  <p>Answer questions about this codebase using the knowledge graph in the project&#x27;s data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).</p>
+</div>
+<div class="card">
+  <div class="name">/understand-dashboard</div>
+  <p>Start the Understand Anything dashboard to visualize the knowledge graph for the current project.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-diff</div>
+  <p>Analyze the current code changes against the knowledge graph in the project&#x27;s data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory is present).</p>
+</div>
+<div class="card">
+  <div class="name">/understand-domain</div>
+  <p>Extracts business domain knowledge — domains, business flows, and process steps — from a codebase and produces an interactive horizontal flow graph in the dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-explain</div>
+  <p>Provide a thorough, in-depth explanation of a specific code component.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-figma</div>
+  <p>Analyzes a Figma file and produces an interactive design knowledge graph in the existing dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-knowledge</div>
+  <p>Analyzes a Karpathy-pattern LLM wiki — a three-layer knowledge base with raw sources, wiki markdown, and a schema file — and produces an interactive knowledge graph dashboard.</p>
+</div>
+<div class="card">
+  <div class="name">/understand-onboard</div>
+  <p>Generate a comprehensive onboarding guide from the project&#x27;s knowledge graph.</p>
+</div>'</div>
+</div>
+
+<div class="section">
+  <h2>Use cases</h2>
+  <table>
+    <thead><tr><th>Actor</th><th>Wants</th><th>Path</th></tr></thead>
+    <tbody><tr>
+  <td>Dev A (external)</td>
+  <td>Understand Hermes architecture</td>
+  <td><code>Read this site, then clone repo</code></td>
+</tr><tr>
+  <td>Dev B (external)</td>
+  <td>Use CodeGraph on their own codebase</td>
+  <td><code>Install `codegraph serve --mcp` into their agent</code></td>
+</tr><tr>
+  <td>Dev C (external)</td>
+  <td>Replicate the knowledge layer</td>
+  <td><code>Stand up Brain Bridge + Mnemosyne</code></td>
+</tr><tr>
+  <td>Dev D (in Tailscale)</td>
+  <td>Live agent access</td>
+  <td><code>Connect to API port 8642 with VILAO_CTG_KEY</code></td>
+</tr></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Replicate the system</h2>
+  <p>Stand up these subsystems in order. Each is independent - you can stop at any layer.</p>
+  <div class="flow">
+<div class="step">
+  <div class="num">1</div>
+  <div>1. Install Hermes Agent: `hermes setup`</div>
+</div>
+<div class="step">
+  <div class="num">2</div>
+  <div>2. Install CodeGraph: `brew tap obot-platform/tap && brew install codegraph`</div>
+</div>
+<div class="step">
+  <div class="num">3</div>
+  <div>3. Index your codebase: `codegraph init <path>`</div>
+</div>
+<div class="step">
+  <div class="num">4</div>
+  <div>4. Install Brain Bridge: `pip install hermes-brain-bridge`</div>
+</div>
+<div class="step">
+  <div class="num">5</div>
+  <div>5. Index your notes: configure `wiki_paths` in Brain Bridge env</div>
+</div>
+<div class="step">
+  <div class="num">6</div>
+  <div>6. Optional: stand up Mnemosyne for vector memory</div>
+</div>
+<div class="step">
+  <div class="num">7</div>
+  <div>7. Optional: install Understand Anything for graph-style onboarding</div>
+</div></div>
+
+  <h3>One-liner install</h3>
+  <pre><code># Install the agent + graph core
+brew tap obot-platform/tap && brew install codegraph
+pip install hermes-agent hermes-brain-bridge
+
+# Index your codebase
+codegraph init /path/to/your/repo
+
+# Start the brain bridge with your notes path
+hermes-brain-bridge --wiki ~/my-wiki --port 9111</code></pre>
+</div>
+
+<div class="section">
+  <h2>CodeGraph quick reference</h2>
+  <pre><code># Stats
+codegraph status ~/your-repo
+
+# What calls this function?
+codegraph callers "my_function"
+
+# What does this function call?
+codegraph callees "my_function"
+
+# If I change this, what's affected?
+codegraph impact "my_function"
+
+# File tree
+codegraph files --path . --max-depth 3 --format tree
+
+# Wire into your agent
+codegraph install   # prompts for agent choice</code></pre>
+</div>
+
+</div>
+<footer>
+  <p>Snapshot taken 2026-09-17 &middot; Hosted on GitHub Pages &middot;
+  <a href="https://github.com/judomanmk19xx-bot/hermes-hub">Source repo</a></p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+</script>
+</body>
+</html>
