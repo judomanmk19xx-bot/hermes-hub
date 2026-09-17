@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Understand Anything — Hermes Hub</title>
+<style>
+:root{--bg:#0a0e1a;--card:#131a2e;--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#a78bfa;--green:#10b981;--border:#1e293b;--code:#0f172a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:1.5rem}
+h1{color:var(--accent);margin-bottom:.5rem;font-size:2.2rem}
+h2{color:var(--accent2);margin:2rem 0 1rem}
+h3{color:var(--accent);margin:1.2rem 0 .8rem}
+.sub{color:var(--muted);margin-bottom:2rem}
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1rem 0}
+.skill{background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:1.2rem;transition:.2s}
+.skill:hover{border-color:var(--accent);transform:translateY(-2px)}
+.skill .name{color:var(--accent);font-family:monospace;font-weight:600;font-size:1rem;margin-bottom:.5rem}
+.skill .desc{color:var(--muted);font-size:.9rem}
+pre{background:var(--code);padding:1rem;border-radius:.5rem;border:1px solid var(--border);overflow-x:auto;font-family:"SF Mono",Monaco,monospace;font-size:.85rem}
+code{color:var(--green)}
+.box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);padding:1rem 1.2rem;border-radius:.3rem;margin:1rem 0}
+.box p{margin-bottom:.5rem}
+.box p:last-child{margin:0}
+.flow{background:var(--card);padding:1.5rem;border-radius:.5rem;border:1px solid var(--border);margin:1rem 0}
+.step{display:flex;gap:1rem;padding:.7rem 0;border-bottom:1px dashed var(--border)}
+.step:last-child{border:none}
+.step .n{background:var(--accent);color:var(--bg);width:1.8rem;height:1.8rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.nav a{color:var(--muted);margin-right:1rem}
+.nav a.current{color:var(--accent);font-weight:600}
+.tag{display:inline-block;padding:.2rem .5rem;background:var(--code);border:1px solid var(--border);border-radius:.3rem;font-size:.75rem;color:var(--muted);margin-right:.3rem}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="index.html">← Hub</a>
+  <a href="codegraph.html">CodeGraph</a>
+  <a href="understand.html" class="current">Understand Anything</a>
+</div>
+
+<h1>Understand Anything</h1>
+<p class="sub">Interactive codebase knowledge graphs · 9 specialized skills · Phase 0→7 pipeline</p>
+
+<div class="box">
+  <p><strong>What it is</strong> — A family of skills that turn any codebase into a navigable knowledge graph. Open-source upstream (Leigest519 lineage) integrated into Hermes.</p>
+  <p><strong>How it uses Hermes hub</strong> — Phase 1-3 call CodeGraph for file/edge enumeration instead of parsing from scratch. Phase 4-7 stores graph in <code>.ua/</code> directory, surfaced via Brain Bridge wiki_search.</p>
+</div>
+
+<h2>Phase Flow</h2>
+<pre class="mermaid">flowchart TD
+    P0[Phase 0<br/>Decompose] --> P1[Phase 1<br/>Width Sweep]
+    P1 --> P2[Phase 2<br/>Depth Analysis]
+    P2 --> P3[Phase 3<br/>Draft]
+    P3 --> P4[Phase 4<br/>Critics]
+    P4 --> P5[Phase 5<br/>Patch Polish]
+    P5 --> P6[Phase 6<br/>Final Verdict]
+    P6 --> P7[Phase 7<br/>Recovery]</pre>
+
+<h2>9 Skills</h2>
+<div class="skills">
+<div class="skill">
+  <div class="name">/understand</div>
+  <div class="desc">Analyze a codebase to produce an interactive knowledge graph.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Analyze the current codebase and produce a `knowledge-graph.json` file in the project's data directory (`.ua/`, or the legacy `.understand-anything/` when it already exists). This file powers the inte</p>
+  <span class="tag">args: ["[path] [--full|--auto-update|--no-auto-update|--review|--language <lang>|--exclude <patterns>]"]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-chat</div>
+  <div class="desc">Use when you need to ask questions about a codebase or under.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Answer questions about this codebase using the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that director</p>
+  <span class="tag">args: [query]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-dashboard</div>
+  <div class="desc">Launch the interactive web dashboard to visualize a codebase.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Start the Understand Anything dashboard to visualize the knowledge graph for the current project.</p>
+  <span class="tag">args: [project-path]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-diff</div>
+  <div class="desc">Use when you need to analyze git diffs or pull requests to u.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Analyze the current code changes against the knowledge graph in the project's data directory (`.ua/knowledge-graph.json`, or the legacy `.understand-anything/knowledge-graph.json` when that directory </p>
+  
+</div>
+<div class="skill">
+  <div class="name">/understand-domain</div>
+  <div class="desc">Extract business domain knowledge from a codebase and genera.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Extracts business domain knowledge — domains, business flows, and process steps — from a codebase and produces an interactive horizontal flow graph in the dashboard.</p>
+  <span class="tag">args: [--full]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-explain</div>
+  <div class="desc">Use when you need a deep-dive explanation of a specific file.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Provide a thorough, in-depth explanation of a specific code component.</p>
+  <span class="tag">args: [file-path]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-figma</div>
+  <div class="desc">Analyze a Figma file via the Figma REST API and generate an.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Analyzes a Figma file and produces an interactive design knowledge graph in the existing dashboard.</p>
+  <span class="tag">args: <figma-file-url-or-key> [--language <lang>]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-knowledge</div>
+  <div class="desc">Analyze a Karpathy-pattern LLM wiki knowledge base and gener.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Analyzes a Karpathy-pattern LLM wiki — a three-layer knowledge base with raw sources, wiki markdown, and a schema file — and produces an interactive knowledge graph dashboard.</p>
+  <span class="tag">args: [wiki-directory]</span>
+</div>
+<div class="skill">
+  <div class="name">/understand-onboard</div>
+  <div class="desc">Use when you need to generate an onboarding guide for new te.</div>
+  <p style="margin-top:.6rem;font-size:.85rem;color:var(--muted)">Generate a comprehensive onboarding guide from the project's knowledge graph.</p>
+  
+</div></div>
+
+<h2>Usage Flow</h2>
+<div class="flow">
+<div class="step"><div class="n">1</div><div>Pick a skill — <code>understand</code> for full graph, <code>-chat</code> for Q&amp;A, <code>-diff</code> for PR review</div></div>
+<div class="step"><div class="n">2</div><div>Pass a path or query as argument</div></div>
+<div class="step"><div class="n">3</div><div>Understand Anything walks Phase 0→7, calling CodeGraph for code structure + Brain Bridge for related notes</div></div>
+<div class="step"><div class="n">4</div><div>Output: knowledge graph file, dashboard URL, or interactive Q&amp;A session</div></div></div>
+
+<h2>Examples</h2>
+<pre><code># Full graph of a repo
+/understand ~/my-project
+
+# Ask about it
+/understand-chat "What does this project do?"
+
+# PR diff analysis
+/understand-diff feature-branch
+
+# Single file deep-dive
+/understand-explain src/auth/login.py
+
+# Business domain extraction
+/understand-domain --full
+
+# Launch interactive dashboard
+/understand-dashboard ~/my-project
+
+# New agent onboarding
+/understand-onboard ~/my-project</code></pre>
+
+<h2>Integrate with CodeGraph</h2>
+<p>The skills read from <code>.ua/</code> directories — when <code>codegraph</code> is initialized on the same repo, file structure is pre-indexed so phase 1-2 complete much faster.</p>
+<pre><code># In your project
+codegraph init .
+# then
+/understand .</code></pre>
+
+<p style="margin-top:2rem;color:var(--muted);font-size:.85rem">
+  Generated from live <code>~/.hermes/skills/understand-anything/</code> snapshot 2026-09-17.
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'dark',securityLevel:'loose'});</script>
+</body>
+</html>

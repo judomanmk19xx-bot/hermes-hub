@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CodeGraph Live — Hermes Hub</title>
+<style>
+:root{--bg:#0a0e1a;--card:#131a2e;--text:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--accent2:#a78bfa;--green:#10b981;--border:#1e293b;--code:#0f172a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:1.5rem}
+h1{color:var(--accent);margin-bottom:.5rem;font-size:2.2rem}
+.sub{color:var(--muted);margin-bottom:2rem}
+h2{color:var(--accent2);margin:2rem 0 1rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:1rem;text-align:center}
+.stat .v{font-size:1.8rem;font-weight:bold;color:var(--green);font-family:monospace}
+.stat .l{font-size:.85rem;color:var(--muted);margin-top:.3rem}
+table{width:100%;border-collapse:collapse;margin:1rem 0;background:var(--card);border:1px solid var(--border);border-radius:.5rem;overflow:hidden}
+th,td{padding:.6rem .9rem;text-align:left;border-bottom:1px solid var(--border)}
+th{background:var(--code);color:var(--accent);font-weight:600}
+td{color:var(--text)}
+pre{background:var(--code);padding:1rem;border-radius:.5rem;border:1px solid var(--border);overflow-x:auto;font-family:"SF Mono",Monaco,Consolas,monospace;font-size:.85rem;max-height:500px}
+code{color:var(--green)}
+.tree{white-space:pre;font-size:.82rem;line-height:1.4}
+.tree .d{color:var(--accent);font-weight:600}
+.tree .f{color:var(--text)}
+.tree .a{color:var(--muted)}
+#mermaid{background:var(--card);padding:1rem;border-radius:.5rem;border:1px solid var(--border);margin:1.5rem 0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.nav a{color:var(--muted);margin-right:1rem}
+.nav a.current{color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="index.html">← Hub</a>
+  <a href="codegraph.html" class="current">CodeGraph</a>
+  <a href="understand.html">Understand Anything</a>
+</div>
+
+<h1>CodeGraph Live</h1>
+<p class="sub">Project: <code>/Volumes/MacRAID/hermes-agent-system</code> · v1.6.0 · SQLite WAL · generated 2026-09-17</p>
+
+<h2>Index Statistics</h2>
+<div class="stats">
+  <div class="stat"><div class="v">8,779</div><div class="l">files</div></div>
+  <div class="stat"><div class="v">186,514</div><div class="l">nodes</div></div>
+  <div class="stat"><div class="v">652,220</div><div class="l">edges</div></div>
+  <div class="stat"><div class="v">777.71 MB</div><div class="l">DB</div></div>
+</div>
+
+<h2>Nodes by Kind</h2>
+<table>
+  <thead><tr><th>Kind</th><th>Count</th><th>Bar</th></tr></thead>
+  <tbody><tr><td>function</td><td><code>56,530</code></td><td>████████████████████████████</td></tr><tr><td>method</td><td><code>43,401</code></td><td>█████████████████████</td></tr><tr><td>import</td><td><code>40,294</code></td><td>████████████████████</td></tr><tr><td>class</td><td><code>13,055</code></td><td>██████</td></tr><tr><td>variable</td><td><code>12,322</code></td><td>██████</td></tr><tr><td>file</td><td><code>8,510</code></td><td>████</td></tr><tr><td>constant</td><td><code>6,280</code></td><td>███</td></tr><tr><td>interface</td><td><code>2,738</code></td><td>█</td></tr><tr><td>property</td><td><code>1,918</code></td><td></td></tr><tr><td>type_alias</td><td><code>934</code></td><td></td></tr><tr><td>route</td><td><code>386</code></td><td></td></tr><tr><td>component</td><td><code>63</code></td><td></td></tr><tr><td>enum_member</td><td><code>52</code></td><td></td></tr><tr><td>struct</td><td><code>17</code></td><td></td></tr><tr><td>enum</td><td><code>14</code></td><td></td></tr></tbody>
+</table>
+
+<h2>Module Map</h2>
+<pre class="mermaid">
+flowchart LR
+    subgraph Core
+        agent[agent]
+        run_agent[run_agent]
+        model_tools[model_tools]
+        toolsets[toolsets]
+        hermes_cli[hermes_cli]
+    end
+    subgraph Interface
+        gateway[gateway]
+        tui_gateway[tui_gateway]
+        ui_tui[ui-tui]
+        web[web]
+        acp_adapter[acp_adapter]
+    end
+    subgraph Extensions
+        plugins[plugins]
+        skills[skills]
+        optional_skills[optional-skills]
+    end
+    subgraph Data
+        cron[cron]
+        scripts[scripts]
+        providers[providers]
+        tools[tools]
+    end
+    agent --> run_agent
+    run_agent --> model_tools
+    model_tools --> toolsets
+    hermes_cli --> model_tools
+    hermes_cli --> gateway
+    gateway --> tui_gateway
+    gateway --> ui_tui
+    gateway --> web
+    acp_adapter --> agent
+    plugins --> skills
+    skills --> optional_skills
+    cron --> scripts
+    tools --> hermes_cli
+    providers --> model_tools
+</pre>
+
+<h2>Tree (depth 2)</h2>
+<pre class="tree"><span class="a"></span>
+<span class="a">Project Structure (8779 files):</span>
+<span class="a"></span>
+<span class="a">├── .github</span>
+<span class="a">│   ├── actions</span>
+<span class="a">│   ├── ISSUE_TEMPLATE</span>
+<span class="a">│   ├── scripts</span>
+<span class="a">│   ├── workflows</span>
+<span class="a">│   ├── actionlint.yaml</span>
+<span class="a">│   └── dependabot.yml</span>
+<span class="a">├── acp_adapter</span>
+<span class="a">│   ├── __init__.py</span>
+<span class="a">│   ├── __main__.py</span>
+<span class="a">│   ├── auth.py</span>
+<span class="a">│   ├── edit_approval.py</span>
+<span class="a">│   ├── entry.py</span>
+<span class="a">│   ├── events.py</span>
+<span class="a">│   ├── permissions.py</span>
+<span class="a">│   ├── provenance.py</span>
+<span class="a">│   ├── server.py</span>
+<span class="a">│   ├── session.py</span>
+<span class="a">│   └── tools.py</span>
+<span class="a">├── agent</span>
+<span class="a">│   ├── lsp</span>
+<span class="a">│   ├── monitoring</span>
+<span class="a">│   ├── pet</span>
+<span class="a">│   ├── proxy_sources</span>
+<span class="a">│   ├── secret_sources</span>
+<span class="a">│   ├── transports</span>
+<span class="a">│   ├── verify</span>
+<span class="a">│   ├── __init__.py</span>
+<span class="a">│   ├── account_usage.py</span>
+<span class="a">│   ├── acp_openai_bridge.py</span>
+<span class="a">│   ├── agent_init.py</span>
+<span class="a">│   ├── agent_runtime_helpers.py</span>
+<span class="a">│   ├── anthropic_adapter.py</span>
+<span class="a">│   ├── anthropic_credentials.py</span>
+<span class="a">│   ├── anthropic_endpoints.py</span>
+<span class="a">│   ├── anthropic_message_convert.py</span>
+<span class="a">│   ├── async_utils.py</span>
+<span class="a">│   ├── aux_accounting.py</span>
+<span class="a">│   ├── auxiliary_client.py</span>
+<span class="a">│   ├── azure_identity_adapter.py</span>
+<span class="a">│   ├── backend_identity.py</span>
+<span class="a">│   ├── background_review.py</span>
+<span class="a">│   ├── battery.py</span>
+<span class="a">│   ├── bedrock_adapter.py</span>
+<span class="a">│   ├── billing_links.py</span>
+<span class="a">│   ├── billing_usage.py</span>
+<span class="a">│   ├── billing_view.py</span>
+<span class="a">│   ├── bounded_response.py</span>
+<span class="a">│   ├── browser_provider.py</span>
+<span class="a">│   ├── browser_registry.py</span>
+<span class="a">│   ├── chat_completion_helpers.py</span>
+<span class="a">│   ├── codex_headers.py</span>
+<span class="a">│   ├── codex_responses_adapter.py</span>
+<span class="a">│   ├── codex_runtime.py</span>
+<span class="a">│   ├── coding_context.py</span>
+<span class="a">│   ├── command_token_source.py</span>
+<span class="a">│   ├── compaction_display.py</span>
+<span class="a">│   ├── context_breakdown.py</span>
+<span class="a">│   ├── context_compressor.py</span>
+<span class="a">│   ├── context_engine.py</span>
+<span class="a">│   ├── context_references.py</span>
+<span class="a">│   ├── conversation_compression.py</span>
+<span class="a">│   ├── conversation_loop.py</span>
+<span class="a">│   ├── copilot_acp_client.py</span>
+<span class="a">│   ├── credential_persistence.py</span>
+<span class="a">│   ├── credential_pool.py</span>
+<span class="a">│   ├── credential_sources.py</span>
+<span class="a">│   ├── credits_tracker.py</span>
+<span class="a">│   ├── curator_backup.py</span>
+<span class="a">│   ├── curator.py</span>
+<span class="a">│   ├── deadline.py</span>
+<span class="a">│   ├── delegation_context.py</span>
+<span class="a">│   ├── display.py</span>
+<span class="a">│   ├── empty_response_guard.py</span>
+<span class="a">│   ├── error_classifier.py</span>
+<span class="a">│   ├── error_surface.py</span>
+<span class="a">│   ├── errors.py</span>
+<span class="a">│   ├── estop.py</span>
+<span class="a">│   ├── file_safety.py</span>
+<span class="a">│   ├── gemini_native_adapter.py</span>
+<span class="a">│   ├── gemini_schema.py</span>
+<span class="a">│   ├── i18n.py</span>
+<span class="a">│   ├── image_gen_provider.py</span>
+<span class="a">│   ├── image_gen_registry.py</span>
+<span class="a">│   ├── image_routing.py</span>
+<span class="a">│   ├── insights.py</span>
+<span class="a">│   ├── interrupt_compat.py</span>
+<span class="a">│   ├── iteration_budget.py</span>
+<span class="a">│   ├── jiter_preload.py</span>
+<span class="a">│   ├── kanban_stop.py</span>
+<span class="a">│   ├── learn_prompt.py</span>
+<span class="a">│   ├── learning_graph_render.py</span>
+<span class="a">│   ├── learning_graph.py</span>
+<span class="a">│   ├── learning_mutations.py</span>
+<span class="a">│   ├── lmstudio_reasoning.py</span>
+<span class="a">│   ├── manual_compression_feedback.py</span>
+<span class="a">│   ├── markdown_tables.py</span>
+<span class="a">│   ├── memory_manager.py</span>
+<span class="a">│   ├── memory_provider.py</span>
+<span class="a">│   ├── message_content.py</span>
+<span class="a">│   ├── message_metadata.py</span>
+<span class="a">│   ├── message_sanitization.py</span>
+<span class="a">│   ├── moa_loop.py</span>
+<span class="a">│   ├── moa_trace.py</span>
+<span class="a">│   ├── model_metadata.py</span>
+<span class="a">│   ├── models_dev.py</span>
+<span class="a">│   ├── moonshot_schema.py</span>
+<span class="a">│   ├── native_compaction.py</span>
+<span class="a">│   ├── nous_rate_guard.py</span>
+<span class="a">│   ├── onboarding.py</span>
+<span class="a">│   ├── oneshot.py</span>
+<span class="a">│   ├── outbound_webhooks.py</span>
+<span class="a">│   ├── plan_prompt.py</span>
+<span class="a">│   ├── plugin_llm.py</span>
+<span class="a">│   ├── plugin_stream_hooks.py</span>
+<span class="a">│   ├── portal_tags.py</span>
+<span class="a">│   ├── process_bootstrap.py</span>
+<span class="a">│   ├── prompt_builder.py</span>
+<span class="a">│   ├── prompt_cache_boundary.py</span>
+<span class="a">│   ├── prompt_cache_scope.py</span>
+<span class="a">│   ├── prompt_caching.py</span>
+<span class="a">│   ├── provider_projection.py</span>
+<span class="a">│   ├── rate_limit_tracker.py</span>
+<span class="a">│   ├── reactions.py</span>
+<span class="a">│   ├── reasoning_effort.py</span>
+<span class="a">│   ├── reasoning_summaries.py</span>
+<span class="a">│   ├── reasoning_timeouts.py</span>
+<span class="a">│   ├── redact.py</span>
+<span class="a">│   ├── relay_llm.py</span>
+<span class="a">│   ├── relay_runtime.py</span>
+<span class="a">│   ├── relay_tools.py</span>
+<span class="a">│   ├── repetition_guard.py</span>
+<span class="a">│   ├── replay_cleanup.py</span>
+<span class="a">│   ├── retry_utils.py</span>
+<span class="a">│   ├── review_engine.py</span>
+<span class="a">│   ├── runtime_cwd.py</span>
+<span class="a">│   ├── secret_scope.py</span>
+<span class="a">│   ├── session_activity.py</span>
+<span class="a">│   ├── shell_hooks.py</span>
+<span class="a">│   ├── side_question.py</span>
+<span class="a">│   ├── skill_bundles.py</span>
+<span class="a">│   ├── skill_commands.py</span>
+<span class="a">│   ├── skill_preprocessing.py</span>
+<span class="a">│   ├── skill_utils.py</span>
+<span class="a">│   ├── ssl_guard.py</span>
+<span class="a">│   ├── ssl_verify.py</span>
+<span class="a">│   ├── stream_diag.py</span></pre>
+
+<h2>Quick Reference</h2>
+<pre><code># Stats
+codegraph status .
+
+# What calls this function?
+codegraph callers "function_name"
+
+# What does this function call?
+codegraph callees "function_name"
+
+# If I change this, what's affected?
+codegraph impact "function_name"
+
+# File tree
+codegraph files --path . --max-depth 3 --format tree
+
+# Wire into your agent
+codegraph install   # prompts for agent choice
+
+# MCP streamable endpoint (Tailscale)
+https://crawbot-master-9.taild7e69a.ts.net:9114</code></pre>
+
+<p style="margin-top:2rem;color:var(--muted);font-size:.85rem">
+  Snapshot taken from live Mac Mini Hermes system. To refresh: re-run snapshot script.
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'dark',securityLevel:'loose'});</script>
+</body>
+</html>
